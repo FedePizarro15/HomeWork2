@@ -12,48 +12,48 @@ Timer::Timer() {
     meridiem = true;
 };
 
-Timer::Timer(int hours) {
-    if (hours < 0 || hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
+Timer::Timer(int _hours) {
+    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
 
-    this->hours = hours;
+    hours = _hours;
     minutes = 0;
     seconds = 0;
     meridiem = true;
 };
 
-Timer::Timer(int hours, int minutes) {
-    if (hours < 0 || hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
-    if (minutes < 0 || minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
+Timer::Timer(int _hours, int _minutes) {
+    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
+    if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
 
-    this->hours = hours;
-    this->minutes = minutes;
+    hours = _hours;
+    minutes = _minutes;
     seconds = 0;
     meridiem = true;
 };
 
-Timer::Timer(int hours, int minutes, int seconds) {
-    if (hours < 0 || hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
-    if (minutes < 0 || minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
-    if (seconds < 0 || seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
+Timer::Timer(int _hours, int _minutes, int _seconds) {
+    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
+    if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
+    if (_seconds < 0 || _seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
 
-    this->hours = hours;
-    this->minutes = minutes;
-    this->seconds = seconds;
+    hours = _hours;
+    minutes = _minutes;
+    seconds = _seconds;
     meridiem = true;
 };
 
-Timer::Timer(int hours, int minutes, int seconds, string formatMeridiem) {
-    if (hours < 0 || hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
-    if (minutes < 0 || minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
-    if (seconds < 0 || seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
+Timer::Timer(int _hours, int _minutes, int _seconds, string formatMeridiem) {
+    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
+    if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
+    if (_seconds < 0 || _seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
 
-    if (formatMeridiem == "a.m." || formatMeridiem == "a" || formatMeridiem == "am") {this->meridiem = true;}
-    else if (formatMeridiem == "p.m." || formatMeridiem == "p" || formatMeridiem == "pm") {this->meridiem = false;}
+    if (formatMeridiem == "a.m." || formatMeridiem == "a" || formatMeridiem == "am") {meridiem = true;}
+    else if (formatMeridiem == "p.m." || formatMeridiem == "p" || formatMeridiem == "pm") {meridiem = false;}
     else {throw runtime_error("Formato meridiem no válido: " + formatMeridiem);}
 
-    this->hours = hours;
-    this->minutes = minutes;
-    this->seconds = seconds;
+    hours = _hours;
+    minutes = _minutes;
+    seconds = _seconds;
 };
 
 void Timer::showTimer() {
@@ -106,36 +106,36 @@ string Timer::getFormatMeridiem() {
     return (meridiem ? "a.m." : "p.m.");
 };
 
-void Timer::setHours(int hours) {
-    if (hours < 0 || hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
+void Timer::setHours(int _hours) {
+    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
 
-    this->hours = hours;
+    hours = _hours;
 };
 
-void Timer::setMinutes(int minutes) {
-    if (minutes < 0 || minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
+void Timer::setMinutes(int _minutes) {
+    if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
 
-    this->minutes = minutes;
+    minutes = _minutes;
 };
 
-void Timer::setSeconds(int seconds) {
-    if (seconds < 0 || seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
+void Timer::setSeconds(int _seconds) {
+    if (_seconds < 0 || _seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
 
-    this->seconds = seconds;
+    seconds = _seconds;
 };
 
 void Timer::setMeridiem(string formatMeridiem) {
     if (formatMeridiem == "a.m." || formatMeridiem == "a" || formatMeridiem == "am") {
-        this->meridiem = true;
+        meridiem = true;
     }
     else if (formatMeridiem == "p.m." || formatMeridiem == "p" || formatMeridiem == "pm") {
-        this->meridiem = false;
+        meridiem = false;
     }
     else {
         throw runtime_error("Formato meridiem no válido: " + formatMeridiem);
     }
-}
+};
 
 void Timer::toggleMeridiem() {
-    this->meridiem = !this->meridiem;
+    meridiem = !meridiem;
 };

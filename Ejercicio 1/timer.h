@@ -2,12 +2,18 @@
 #include <string>
 
 class Timer {
+private:
+    int hours, minutes, seconds;
+    bool meridiem;
+
 public:
     Timer();
-    Timer(int horus);
-    Timer(int horus, int minutes);
-    Timer(int horus, int minutes, int seconds);
-    Timer(int horus, int minutes, int seconds, std::string fromatMeridiem);
+    Timer(int _hours);
+    Timer(int _hours, int _minutes);
+    Timer(int _hours, int _minutes, int _seconds);
+    Timer(int _hours, int _minutes, int _seconds, std::string fromatMeridiem);
+
+    // ~Timer();
 
     void showTimer();
     void showTimer24();
@@ -22,13 +28,9 @@ public:
     bool getMeridiem();
     std::string getFormatMeridiem();
     
-    void setHours(int hours);
-    void setMinutes(int minutes);
-    void setSeconds(int seconds);
+    void setHours(int _hours);
+    void setMinutes(int _minutes);
+    void setSeconds(int _seconds);
     void setMeridiem(std::string formatMeridiem);
     void toggleMeridiem();
-
-private:
-    int hours, minutes, seconds;
-    bool meridiem;    
 };

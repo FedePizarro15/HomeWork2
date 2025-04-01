@@ -31,7 +31,7 @@ void pauseAndContinue(string message = "Presione Enter para continuar...") {
 }
 
 int main() {
-    Timer timer = Timer();
+    Timer timer;
 
     int choice = 0;
     int secondChoice = 0;
