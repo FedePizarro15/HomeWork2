@@ -43,7 +43,7 @@ void Course::unenrollStudent(Student& student) {
 };
 
 int Course::isStudentErolled(Student& student) {
-    for (int i = 0; i < students.size(); i++) {
+    for (unsigned int i = 0; i < students.size(); i++) {
         if (*students[i] == student) {
             return i;
         };
@@ -67,8 +67,8 @@ string Course::getName() const {
 void Course::showStudents() {
     sort(students.begin(), students.end());
     
-    for (int i = 0; i < students.size(); i++) {
-        cout << students[i]->getName() << endl;
+    for (unsigned int i = 0; i < students.size(); i++) {
+        cout << "> " << students[i]->getName() << endl;
     };
 };
 

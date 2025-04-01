@@ -1,4 +1,5 @@
 #include "student.h"
+#include "course.h"
 #include <iostream>
 
 using namespace std;
@@ -15,7 +16,7 @@ Student::Student(string _name, vector<pair<shared_ptr<Course>, float>> _courses,
     id = _id;
 };
 
-void Student::courseInscribe(Course& course, float grade = 0) {
+void Student::courseInscribe(Course& course, float grade) {
     pair<shared_ptr<Course>, float> coursePair = {make_shared<Course>(course), grade};
     courses.push_back(coursePair);
     //??: ¿Debo añadir una relación de vuelta que asegura inscribir en el curso?

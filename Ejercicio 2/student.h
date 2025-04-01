@@ -1,12 +1,14 @@
-#pragma once
-
-#include "course.h"
+#ifndef STUDENT_H
+#define STUDENT_H
 
 #include <string>
 #include <vector>
 #include <memory>
 
 using namespace std;
+
+// Forward declaration
+class Course;
 
 class Student {
 private:
@@ -30,3 +32,5 @@ public:
     bool operator == (Student& student) const;
     bool operator << (Student& student) const;
 };
+
+#endif

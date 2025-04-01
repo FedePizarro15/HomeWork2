@@ -21,7 +21,8 @@ void input(string message, float* variable) {
 
 void input(string message, string* variable) {
     cout << message << endl << ">> ";
-    cin >> *variable;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    getline(cin, *variable);
     cout << endl;
 };
 
@@ -57,14 +58,14 @@ bool checkCoursesExist(const vector<Course>& courses) {
 
 bool checkStudentsExist(const vector<Student>& students) {
     if (students.empty()) {
-        cout << "No hay cursos registrados." << endl;
+        cout << "No hay estudiantes registrados." << endl;
         return false;
     }
     return true;
 };
 
 bool selectCourse(const vector<Course>& courses, int& option) {
-    cout << "Seleccione un curso (0 - " << courses.size() << "):" << endl;
+    cout << "Seleccione un curso (1 - " << courses.size() << "):" << endl;
     for (size_t i = 0; i < courses.size(); i++) {
         cout << i + 1 << ". " << courses[i].getName() << endl;
     }
@@ -80,7 +81,7 @@ bool selectCourse(const vector<Course>& courses, int& option) {
 };
 
 bool selectStudent(const vector<Student>& students, int& option) {
-    cout << "Seleccione un estudiante (0 - " << students.size() << "):" << endl;
+    cout << "Seleccione un estudiante (1 - " << students.size() << "):" << endl;
     for (size_t i = 0; i < students.size(); i++) {
         cout << i + 1 << ". " << students[i].getName() << " (ID: " << students[i].getID() << ")" << endl;
     }
@@ -205,8 +206,8 @@ int main() {
                 if (!selectCourse(courses, courseIndex)) break;
                 
                 Course& selectedCourse = courses[courseIndex-1];
-                cout << "\nEstado del curso '" << selectedCourse.getName() << "':" << endl;
-                cout << "Está lleno: " << (selectedCourse.isFull() ? "Sí" : "No") << endl;
+                cout << "Estado del curso '" << selectedCourse.getName() << "':" << endl << endl;
+                cout << "Está lleno: " << (selectedCourse.isFull() ? "Sí" : "No") << endl << endl;
                 cout << "Estudiantes inscriptos:" << endl;
 
                 selectedCourse.showStudents();
