@@ -7,7 +7,6 @@
 
 using namespace std;
 
-// Forward declaration
 class Course;
 
 class Student {
@@ -17,20 +16,23 @@ private:
     unsigned int id; // único
     
 public:
-    Student(string _name, unsigned int _id);
-    Student(string _name, vector<pair<shared_ptr<Course>, float>> _courses, unsigned int _id);
+    Student(unsigned int _id) : name("Alumno"), courses({}), id(_id) {};
+    Student(string _name, unsigned int _id) : name(_name), courses({}), id(_id) {};
+    Student(string _name, vector<pair<shared_ptr<Course>, float>> _courses, unsigned int _id) : name(_name), courses(_courses), id(_id) {};
 
-    void courseInscribe(Course& course, float grade = 0);
-    void courseDesinscribe(Course course);
-    void setGrade(Course course, float grade);
+    void courseInscribe(shared_ptr<Course> course, float grade = 0);
+    void courseDesinscribe(shared_ptr<Course> course);
+
+    bool setGrade(shared_ptr<Course> course, float grade);
 
     string getName() const;
     unsigned int getID() const;
-    vector<Course> getCourses();
-    float getAverage();
+    // vector<Course*> getCourses() const;
+    float getAverage() const;
 
-    bool operator == (Student& student) const;
-    bool operator << (Student& student) const;
+    bool operator == (const Student& student) const;
+    bool operator < (const Student& student) const;
+    friend ostream& operator <<(ostream& os, const Student& student);
 };
 
 #endif

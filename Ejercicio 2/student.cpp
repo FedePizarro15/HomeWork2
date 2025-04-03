@@ -1,47 +1,34 @@
 #include "student.h"
 #include "course.h"
+
 #include <iostream>
 
 using namespace std;
 
-Student::Student(string _name, unsigned int _id) {
-    name = _name;
-    courses = {};
-    id = _id;
-};
+//??: ¿Debo añadir una relación de vuelta que asegura inscribir en el curso?
+void Student::courseInscribe(shared_ptr<Course> course, float grade) {courses.push_back(pair{course, grade});}
 
-Student::Student(string _name, vector<pair<shared_ptr<Course>, float>> _courses, unsigned int _id) {
-    name = _name;
-    courses = _courses;
-    id = _id;
-};
-
-void Student::courseInscribe(Course& course, float grade) {
-    pair<shared_ptr<Course>, float> coursePair = {make_shared<Course>(course), grade};
-    courses.push_back(coursePair);
-    //??: ¿Debo añadir una relación de vuelta que asegura inscribir en el curso?
-};
-
-void Student::courseDesinscribe(Course course) {
+void Student::courseDesinscribe(shared_ptr<Course> course) {
     for (unsigned int i = 0; i < courses.size(); i++) {
-        if (*courses[i].first == course) {
+        if (*courses[i].first == *course) {
             courses.erase(courses.begin() + i);
             return;
         };
     };
 
-    cout << "El estudiante no está inscripto en el curso '" << course.getName() << "'.";
+    cout << "El estudiante no está inscripto en el curso " << course << "." << endl << endl;
 };
 
-void Student::setGrade(Course course, float grade) {
+bool Student::setGrade(shared_ptr<Course> course, float grade) {
     for (unsigned int i = 0; i < courses.size(); i++) {
-        if (*courses[i].first == course) {
+        if (courses[i].first == course) {
             courses[i].second = grade;
-            return;
+            return true;
         };
     };
 
-    cout << "El estudiante no está inscripto en el curso '" << course.getName() << "'.";
+    cout << "El estudiante no está inscripto en el curso " << course << "." << endl << endl;
+    return false;
 };
 
 string Student::getName() const {
@@ -52,28 +39,39 @@ unsigned int Student::getID() const {
     return id;
 };
 
-vector<Course> Student::getCourses() {
-    vector<Course> _courses;
+// vector<Course*> Student::getCourses() const {
+//     vector<Course*> _courses;
+
+//     for (unsigned int i = 0; i < courses.size(); i++) {
+//         _courses.push_back(courses[i].first.get());
+//     };
+
+//     return _courses;
+// };
+
+float Student::getAverage() const {
+    if (courses.empty()) return 0;
+    
+    float gradesSum = 0.0;
+    unsigned int validCourses = 0;
 
     for (unsigned int i = 0; i < courses.size(); i++) {
-        _courses.push_back(*courses[i].first);
+        if (courses[i].second > 0) {
+            gradesSum += courses[i].second;
+            validCourses++;
+        }
     };
 
-    return _courses;
+    if (validCourses == 0) return 0;
+    
+    return gradesSum / validCourses;
 };
 
-float Student::getAverage() {
-    float gradesSum, average;
+bool Student::operator == (const Student &student) const {return id == student.id;}
 
-    for (unsigned int i = 0; i < courses.size(); i++) {
-        gradesSum += courses[i].second;
-    };
+bool Student::operator < (const Student &student) const {return name < student.name;}
 
-    average = gradesSum / courses.size();
-
-    return average;
-};
-
-bool Student::operator == (Student& student) const {return (id == student.id ? true : false);}
-
-bool Student::operator << (Student& student) const {return (name <= student.name ? true : false);}
+ostream &operator <<(ostream &os, const Student &student) {
+    os << "'" << student.getName() << "' (ID: " << student.getID() << ")";
+    return os;
+}

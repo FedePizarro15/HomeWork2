@@ -14,18 +14,21 @@ private:
         vector<shared_ptr<Student>> students;
 
 public:
-    Course(string _name);
-    Course(string _name, vector<shared_ptr<Student>> _students);
+    Course() : name("Curso"), students({}) {};
+    Course(string _name) : name(_name), students({}) {};
+    Course(string _name, vector<shared_ptr<Student>> _students) : name(_name), students(_students) {};
+    Course(const Course& toCopy, string _name);
 
-    void enrollStudent(Student& student);
-    void unenrollStudent(Student& student);
+    void enrollStudent(shared_ptr<Student> student);
+    void unenrollStudent(shared_ptr<Student> student);
 
-    int isStudentErolled(Student& student);
-    bool isFull();
-    unsigned int getStudentsCount();
+    int isStudentEnrolled(const shared_ptr<Student> student) const;
+    bool isFull() const;
+    unsigned int getStudentsCount() const;
 
     string getName() const;
     void showStudents();
 
     bool operator== (const Course& course) const;
+    friend ostream& operator <<(ostream& os, const Course& course);
 };

@@ -1,50 +1,51 @@
 #include "course.h"
+
 #include <iostream>
 #include <algorithm>
 
-Course::Course(string _name) {
+//! ¿Esto hace un deep copy correctamente?
+Course::Course(const Course& toCopy, string _name) {
     name = _name;
-    students = {};
-};
 
-Course::Course(string _name, vector<shared_ptr<Student>> _students) {
-    name = _name;
-    students = _students;
-};
+    for (const auto& student : toCopy.students) {
+        students.push_back(make_shared<Student>(*student));
+    }
+}
 
-void Course::enrollStudent(Student& student) {
+void Course::enrollStudent(shared_ptr<Student> student) {
     if (isFull()) {
-        cout << "El curso '" << name << "' está completo, no se puede inscribir al alumno '" << student.getName() << "'." << endl << endl;
+        cout << "El curso " << *this << " está completo, no se puede inscribir al alumno " << student << "." << endl << endl;
         return;
     };
 
-    if (isStudentErolled(student) >= 0) {
-        cout << "El alumno '" << student.getName() << "' ya está inscripto en el curso '" << name << "'." << endl << endl;
+    if (isStudentEnrolled(student) >= 0) {
+        cout << "El alumno " << student << " ya está inscripto en el curso " << *this << "." << endl << endl;
         return;
     }
 
-    students.push_back(make_shared<Student>(student));
-    student.courseInscribe(*this);
+    students.push_back(student);
+    student->courseInscribe(this);
     
-    cout << "Se inscribió al alumno '" << student.getName() << "' en el curso '" << name << "'." << endl << endl;
+    cout << "Se inscribió al alumno " << student << " en el curso " << *this << "." << endl << endl;
 };
 
-void Course::unenrollStudent(Student& student) {
-    int studentIndex = isStudentErolled(student);
+void Course::unenrollStudent(shared_ptr<Student> student) {
+    int studentIndex = isStudentEnrolled(student);
 
     if (studentIndex == -1) {
-        cout << "El estudiante no está inscripto en el curso '" << student.getName() << "'." << endl << endl;
+        cout << "El estudiante " << student << " no está inscripto en el curso " << *this << "." << endl << endl;
     } else {
+        student->courseDesinscribe(this);
         students.erase(students.begin() + studentIndex);
-        student.courseDesinscribe(*this);
     
-        cout << "Se desinscribió al alumno '" << student.getName() << "' del curso '" << name << "'." << endl << endl;
+        cout << "Se desinscribió al alumno " << student << " del curso " << *this << "." << endl << endl;
     };
 };
 
-int Course::isStudentErolled(Student& student) {
+//! ¿Esto busca por legajo?
+int Course::isStudentEnrolled(const shared_ptr<Student> student) const {
     for (unsigned int i = 0; i < students.size(); i++) {
-        if (*students[i] == student) {
+        if (*students[i] == *student) {
             return i;
         };
     };
@@ -52,11 +53,11 @@ int Course::isStudentErolled(Student& student) {
     return -1;
 };
 
-bool Course::isFull() {
-    return students.size() >= 20 ? true : false;
+bool Course::isFull() const {
+    return students.size() >= 20;
 };
 
-unsigned int Course::getStudentsCount() {
+unsigned int Course::getStudentsCount() const {
     return students.size();
 };
 
@@ -65,14 +66,19 @@ string Course::getName() const {
 };
 
 void Course::showStudents() {
-    sort(students.begin(), students.end());
+    sort(students.begin(), students.end(),
+        [](const shared_ptr<Student>& a, const shared_ptr<Student>& b) {return *a < *b;});
     
     for (unsigned int i = 0; i < students.size(); i++) {
-        cout << "> " << students[i]->getName() << endl;
+        cout << i + 1 << ". > " << *students[i] << " (" << students[i]->getAverage() << ")." << endl;
     };
+
+    cout << endl;
 };
 
-bool Course::operator== (const Course& course) const {
-    if (this->name == course.name) return true;
-    else return false;
-};
+bool Course::operator== (const Course &course) const {return this->name == course.name;}
+
+ostream& operator<<(ostream &os, const Course &course) {
+    os << "'" << course.getName() << "'";
+    return os;
+}

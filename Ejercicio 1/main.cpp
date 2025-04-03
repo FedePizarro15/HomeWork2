@@ -1,28 +1,29 @@
 #include "timer.h"
+
 #include <iostream>
 #include <limits>  // Para std::numeric_limits
 
 using namespace std;
 
-void input(string message, int* variable) {
+void input(const string message, int* variable) {
     cout << message << endl << ">> ";
     cin >> *variable;
     cout << endl;
 };
 
-void input(string message, string* variable) {
+void input(const string message, string* variable) {
     cout << message << endl << ">> ";
     cin >> *variable;
     cout << endl;
 };
 
-void input(string message, bool* variable) {
+void input(const string message, bool* variable) {
     cout << message << endl << ">> ";
     cin >> *variable;
     cout << endl;
 };
 
-void pauseAndContinue(string message = "Presione Enter para continuar...") {
+void pauseAndContinue(const string message = "Presione Enter para continuar...") {
     cout << message << endl;
 
     cin.ignore(numeric_limits<streamsize>::max(), '\n');

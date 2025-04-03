@@ -1,4 +1,5 @@
 #include "timer.h"
+
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -12,7 +13,7 @@ Timer::Timer() {
     meridiem = true;
 };
 
-Timer::Timer(int _hours) {
+Timer::Timer(const int _hours) {
     if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
 
     hours = _hours;
@@ -21,7 +22,7 @@ Timer::Timer(int _hours) {
     meridiem = true;
 };
 
-Timer::Timer(int _hours, int _minutes) {
+Timer::Timer(const int _hours, const int _minutes) {
     if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
     if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
 
@@ -31,7 +32,7 @@ Timer::Timer(int _hours, int _minutes) {
     meridiem = true;
 };
 
-Timer::Timer(int _hours, int _minutes, int _seconds) {
+Timer::Timer(const int _hours, const int _minutes, const int _seconds) {
     if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
     if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
     if (_seconds < 0 || _seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
@@ -42,7 +43,7 @@ Timer::Timer(int _hours, int _minutes, int _seconds) {
     meridiem = true;
 };
 
-Timer::Timer(int _hours, int _minutes, int _seconds, string formatMeridiem) {
+Timer::Timer(const int _hours, const int _minutes, const int _seconds, const string formatMeridiem) {
     if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
     if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
     if (_seconds < 0 || _seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
@@ -56,75 +57,75 @@ Timer::Timer(int _hours, int _minutes, int _seconds, string formatMeridiem) {
     seconds = _seconds;
 };
 
-void Timer::showTimer() {
+void Timer::showTimer() const {
     cout << setfill('0') << setw(2) << hours << "h, " 
          << setfill('0') << setw(2) << minutes << "m, " 
          << setfill('0') << setw(2) << seconds << "s "
          << (meridiem ? "a.m." : "p.m.") << endl << endl;
 };
 
-void Timer::showTimer24() {
+void Timer::showTimer24() const {
     cout << setfill('0') << setw(2) << (meridiem ? hours : hours + 12) << "h, "
          << setfill('0') << setw(2) << minutes << "m, "
          << setfill('0') << setw(2) << seconds << "s" << endl << endl;
 };
 
-void Timer::showHours() {
+void Timer::showHours() const {
     cout << hours << " Horas" << endl << endl;
 };
 
-void Timer::showMinutes() {
+void Timer::showMinutes() const {
     cout << minutes << " Minutos" << endl << endl;
 };
 
-void Timer::showSeconds() {
+void Timer::showSeconds() const {
     cout << seconds << " Segundos" << endl << endl;
 
 };
 
-void Timer::showFormatMeridiem() {
+void Timer::showFormatMeridiem() const {
     cout << getFormatMeridiem() << endl << endl;
 };
 
-int Timer::getHours() {
+int Timer::getHours() const {
     return hours;
 };
 
-int Timer::getMinutes() {
+int Timer::getMinutes() const {
     return minutes;
 };
 
-int Timer::getSeconds() {
+int Timer::getSeconds() const {
     return seconds;
 };
 
-bool Timer::getMeridiem() {
+bool Timer::getMeridiem() const {
     return meridiem;
 };
 
-string Timer::getFormatMeridiem() {
+string Timer::getFormatMeridiem() const {
     return (meridiem ? "a.m." : "p.m.");
 };
 
-void Timer::setHours(int _hours) {
+void Timer::setHours(const int _hours) {
     if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
 
     hours = _hours;
 };
 
-void Timer::setMinutes(int _minutes) {
+void Timer::setMinutes(const int _minutes) {
     if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
 
     minutes = _minutes;
 };
 
-void Timer::setSeconds(int _seconds) {
+void Timer::setSeconds(const int _seconds) {
     if (_seconds < 0 || _seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
 
     seconds = _seconds;
 };
 
-void Timer::setMeridiem(string formatMeridiem) {
+void Timer::setMeridiem(const string formatMeridiem) {
     if (formatMeridiem == "a.m." || formatMeridiem == "a" || formatMeridiem == "am") {
         meridiem = true;
     }

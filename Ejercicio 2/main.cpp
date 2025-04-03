@@ -1,5 +1,6 @@
 #include "course.h"
 #include "student.h"
+
 #include <iostream>
 #include <limits>
 #include <vector>
@@ -40,7 +41,7 @@ void pauseAndContinue(string message = "Presione Enter para continuar...") {
     cin.get();
 };
 
-bool checkStudentsAndCoursesExist(const vector<Student>& students, const vector<Course>& courses) {
+bool checkStudentsAndCoursesExist(const vector<shared_ptr<Student>>& students, const vector<shared_ptr<Course>>& courses) {
     if (students.empty() || courses.empty()) {
         cout << "Debe haber al menos un estudiante y un curso registrados." << endl;
         return false;
@@ -48,7 +49,7 @@ bool checkStudentsAndCoursesExist(const vector<Student>& students, const vector<
     return true;
 };
 
-bool checkCoursesExist(const vector<Course>& courses) {
+bool checkCoursesExist(const vector<shared_ptr<Course>>& courses) {
     if (courses.empty()) {
         cout << "No hay cursos registrados." << endl;
         return false;
@@ -56,7 +57,7 @@ bool checkCoursesExist(const vector<Course>& courses) {
     return true;
 };
 
-bool checkStudentsExist(const vector<Student>& students) {
+bool checkStudentsExist(const vector<shared_ptr<Student>>& students) {
     if (students.empty()) {
         cout << "No hay estudiantes registrados." << endl;
         return false;
@@ -67,7 +68,7 @@ bool checkStudentsExist(const vector<Student>& students) {
 bool selectCourse(const vector<Course>& courses, int& option) {
     cout << "Seleccione un curso (1 - " << courses.size() << "):" << endl;
     for (size_t i = 0; i < courses.size(); i++) {
-        cout << i + 1 << ". " << courses[i].getName() << endl;
+        cout << i + 1 << ". " << courses[i] << endl;
     }
 
     input("Ingrese una opción:", &option);
@@ -80,10 +81,26 @@ bool selectCourse(const vector<Course>& courses, int& option) {
     return true;
 };
 
-bool selectStudent(const vector<Student>& students, int& option) {
+bool selectCourse(const vector<shared_ptr<Course>>& courses, int& option) {
+    cout << "Seleccione un curso (1 - " << courses.size() << "):" << endl;
+    for (size_t i = 0; i < courses.size(); i++) {
+        cout << i + 1 << ". " << courses[i] << endl;
+    }
+
+    input("Ingrese una opción:", &option);
+                
+    if (option < 1 || option > static_cast<int>(courses.size())) {
+        cout << "Opción inválida." << endl;
+        return false;
+    }
+
+    return true;
+};
+
+bool selectStudent(const vector<shared_ptr<Student>>& students, int& option) {
     cout << "Seleccione un estudiante (1 - " << students.size() << "):" << endl;
     for (size_t i = 0; i < students.size(); i++) {
-        cout << i + 1 << ". " << students[i].getName() << " (ID: " << students[i].getID() << ")" << endl;
+        cout << i + 1 << ". " << *students[i] << "." << endl;
     }
 
     input("Ingrese una opción:", &option);
@@ -97,8 +114,8 @@ bool selectStudent(const vector<Student>& students, int& option) {
 };
 
 int main() {
-    vector<Course> courses;
-    vector<Student> students;
+    vector<shared_ptr<Course>> courses;
+    vector<shared_ptr<Student>> students;
 
     unsigned int nextStudentID = 1000;
     
@@ -114,6 +131,7 @@ int main() {
         cout << "6. Asignar Calificación" << endl;
         cout << "7. Estado de Curso" << endl;
         cout << "8. Promedio de Estudiante" << endl;
+        cout << "9. Copiar Curso" << endl;
         cout << "0. Salir" << endl;
         cout << "=============================================" << endl;
         cout << "Ingrese una opción: ";
@@ -125,7 +143,7 @@ int main() {
                 string name;
                 input("Ingrese el nombre del curso:", &name);
 
-                courses.push_back(Course(name));
+                courses.push_back(make_shared<Course>(name));
                 cout << "Curso '" << name << "' creado exitosamente." << endl;
                 break;
             };
@@ -133,8 +151,8 @@ int main() {
                 string name;
                 input("Ingrese el nombre del estudiante:", &name);
 
-                students.push_back(Student(name, nextStudentID++));
-                cout << "Estudiante '" << name << "' con ID " << nextStudentID - 1 << " creado exitosamente." << endl;
+                students.push_back(make_shared<Student>(name, nextStudentID++));
+                cout << "Estudiante " << *students.end() << " creado exitosamente." << endl;
                 break;
             };
             case 3: {
@@ -143,14 +161,14 @@ int main() {
                 int courseIndex;
                 if (!selectCourse(courses, courseIndex)) break;
 
-                if (courses[courseIndex - 1].getStudentsCount() == 0) {
+                if (courses[courseIndex - 1]->getStudentsCount() == 0) {
                     cout << "No hay estudiantes inscriptos en este curso." << endl;
                     break;
                 }
                 
-                cout << "\nEstudiantes en el curso '" << courses[courseIndex-1].getName() << "':" << endl;
+                cout << "\nEstudiantes en el curso " << courses[courseIndex-1] << ":" << endl;
 
-                courses[courseIndex-1].showStudents();
+                courses[courseIndex-1]->showStudents();
                 break;
             };
             case 4: {
@@ -162,7 +180,8 @@ int main() {
                 int studentIndex;
                 if (!selectStudent(students, studentIndex)) break;
                 
-                courses[courseIndex-1].enrollStudent(students[studentIndex-1]);
+                courses[courseIndex-1]->enrollStudent(students[studentIndex-1]);
+                // students[studentIndex-1]->courseInscribe(courses[courseIndex-1]);
                 break;
             };
             case 5: {
@@ -174,7 +193,8 @@ int main() {
                 int studentIndex;
                 if (!selectStudent(students, studentIndex)) break;
                 
-                courses[courseIndex-1].unenrollStudent(students[studentIndex-1]);
+                // students[studentIndex-1]->courseDesinscribe(courses[courseIndex-1]);
+                courses[courseIndex-1]->unenrollStudent(students[studentIndex-1]);
                 break;
             };
 
@@ -185,7 +205,7 @@ int main() {
                 if (!selectStudent(students, studentIndex)) break;
                 
                 int courseIndex;
-                if (!selectCourse(students[studentIndex - 1].getCourses(), courseIndex)) break;
+                if (!selectCourse(courses, courseIndex)) break;
                 
                 float grade;
                 input("Ingrese la calificación (0 - 10):", &grade);
@@ -195,7 +215,8 @@ int main() {
                     break;
                 }
                 
-                students[studentIndex-1].setGrade(courses[courseIndex-1], grade);
+                if (!students[studentIndex-1]->setGrade(courses[courseIndex-1], grade)) break;
+                
                 cout << "Calificación asignada correctamente." << endl;
                 break;
             };
@@ -205,10 +226,10 @@ int main() {
                 int courseIndex;
                 if (!selectCourse(courses, courseIndex)) break;
                 
-                Course& selectedCourse = courses[courseIndex-1];
-                cout << "Estado del curso '" << selectedCourse.getName() << "':" << endl << endl;
+                Course& selectedCourse = *courses[courseIndex-1];
+                cout << "Estado del curso " << selectedCourse << ":" << endl << endl;
                 cout << "Está lleno: " << (selectedCourse.isFull() ? "Sí" : "No") << endl << endl;
-                cout << "Estudiantes inscriptos:" << endl;
+                cout << "Estudiantes inscriptos (" << selectedCourse.getStudentsCount() << "):" << endl;
 
                 selectedCourse.showStudents();
                 break;
@@ -219,10 +240,22 @@ int main() {
                 int studentIndex;
                 if (!selectStudent(students, studentIndex)) break;
                 
-                cout << "El promedio del estudiante '" << students[studentIndex-1].getName() << "' (ID: " << students[studentIndex-1].getID() << ")"
-                     << " es: " << students[studentIndex-1].getAverage() << endl;
+                cout << "El promedio del estudiante " << *students[studentIndex-1] << " es: " << students[studentIndex-1]->getAverage() << endl;
                 break;
             };
+            case 9: {
+                if (!checkCoursesExist(courses)) break;
+                
+                int courseIndex;
+                if (!selectCourse(courses, courseIndex)) break;
+
+                string newCourse;
+                input("Ingrese el nombre del nuevo curso:", &newCourse);
+
+                courses.push_back(make_shared<Course>(*courses[courseIndex - 1], newCourse));
+                cout << "Curso '" << newCourse << "' creado exitosamente." << endl;
+                break;
+            }
             case 0:
                 cout << "Saliendo del programa..." << endl;
                 break;

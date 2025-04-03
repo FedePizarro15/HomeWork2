@@ -1,18 +1,15 @@
 #pragma once
 
+#include <memory>
+
+using namespace std;
+
 class Number
 {
-private:
-    float value;
 public:
-    Number(/* args */);
-    ~Number();
-};
+    virtual unique_ptr<Number> sum(const Number& number) const = 0;
+    virtual unique_ptr<Number> substraction(const Number& number) const = 0;
+    virtual unique_ptr<Number> multiplication(const Number& number) const = 0;
 
-Number::Number(/* args */)
-{
-}
-
-Number::~Number()
-{
-}
+    virtual string toString() const = 0;
+};;
