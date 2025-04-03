@@ -143,7 +143,9 @@ int main() {
                 string name;
                 input("Ingrese el nombre del curso:", &name);
 
-                courses.push_back(make_shared<Course>(name));
+                shared_ptr<Course> newCourse = make_shared<Course>(name);
+
+                courses.push_back(newCourse);
                 cout << "Curso '" << name << "' creado exitosamente." << endl;
                 break;
             };
@@ -151,7 +153,7 @@ int main() {
                 string name;
                 input("Ingrese el nombre del estudiante:", &name);
 
-                students.push_back(make_shared<Student>(name, nextStudentID++));
+                students.push_back(make_shared<Student>(Student(name, nextStudentID++)));
                 cout << "Estudiante " << *students.end() << " creado exitosamente." << endl;
                 break;
             };

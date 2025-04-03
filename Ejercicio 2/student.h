@@ -18,7 +18,6 @@ private:
 public:
     Student(unsigned int _id) : name("Alumno"), courses({}), id(_id) {};
     Student(string _name, unsigned int _id) : name(_name), courses({}), id(_id) {};
-    Student(string _name, vector<pair<shared_ptr<Course>, float>> _courses, unsigned int _id) : name(_name), courses(_courses), id(_id) {};
 
     void courseInscribe(shared_ptr<Course> course, float grade = 0);
     void courseDesinscribe(shared_ptr<Course> course);

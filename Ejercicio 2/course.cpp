@@ -8,7 +8,7 @@ Course::Course(const Course& toCopy, string _name) {
     name = _name;
 
     for (const auto& student : toCopy.students) {
-        students.push_back(make_shared<Student>(*student));
+        students.push_back(student);
     }
 }
 
@@ -23,8 +23,8 @@ void Course::enrollStudent(shared_ptr<Student> student) {
         return;
     }
 
+    student->courseInscribe(make_shared<Course>(this));
     students.push_back(student);
-    student->courseInscribe(this);
     
     cout << "Se inscribió al alumno " << student << " en el curso " << *this << "." << endl << endl;
 };
@@ -35,14 +35,13 @@ void Course::unenrollStudent(shared_ptr<Student> student) {
     if (studentIndex == -1) {
         cout << "El estudiante " << student << " no está inscripto en el curso " << *this << "." << endl << endl;
     } else {
-        student->courseDesinscribe(this);
+        student->courseDesinscribe(make_shared<Course>(this));
         students.erase(students.begin() + studentIndex);
     
         cout << "Se desinscribió al alumno " << student << " del curso " << *this << "." << endl << endl;
     };
 };
 
-//! ¿Esto busca por legajo?
 int Course::isStudentEnrolled(const shared_ptr<Student> student) const {
     for (unsigned int i = 0; i < students.size(); i++) {
         if (*students[i] == *student) {

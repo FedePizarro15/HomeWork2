@@ -16,7 +16,6 @@ private:
 public:
     Course() : name("Curso"), students({}) {};
     Course(string _name) : name(_name), students({}) {};
-    Course(string _name, vector<shared_ptr<Student>> _students) : name(_name), students(_students) {};
     Course(const Course& toCopy, string _name);
 
     void enrollStudent(shared_ptr<Student> student);

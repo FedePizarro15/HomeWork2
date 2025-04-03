@@ -6,15 +6,15 @@ class Complex final : public Number {
     private:
         float realValue;
         float imaginaryValue;
+        
     public:
-        Complex();
+        Complex() : realValue(0), imaginaryValue(0) {};
         Complex (float value, bool isReal);
-        Complex (float realValue, float imaginaryValue);
+        Complex (float _realValue, float _imaginaryValue) : realValue(_realValue), imaginaryValue(_imaginaryValue) {};
 
-        unique_ptr<Number> sum(const Number& number) override;
-        unique_ptr<Number> substraction(const Number& number) override;
-        unique_ptr<Number> multiplication(const Number& number) override;
+        unique_ptr<Number> operator+(const Number& number) const override;
+        unique_ptr<Number> operator-(const Number& number) const override;
+        unique_ptr<Number> operator*(const Number& number) const override;
 
-        float getValue() const override;
-        string toString() override;
+        string toString() const override;
 };
