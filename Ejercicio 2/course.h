@@ -10,13 +10,13 @@ using namespace std;
 
 class Course {
 private:
-        string name;
-        vector<shared_ptr<Student>> students;
+    const string name;
+    vector<shared_ptr<Student>> students;
 
 public:
     Course() : name("Curso"), students({}) {};
-    Course(string _name) : name(_name), students({}) {};
-    Course(const Course& toCopy, string _name);
+    Course(const string _name) : name(_name), students({}) {};
+    Course(const Course& toCopy, const string _name);
 
     void enrollStudent(shared_ptr<Student> student);
     void unenrollStudent(shared_ptr<Student> student);

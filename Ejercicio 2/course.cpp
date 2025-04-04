@@ -3,42 +3,40 @@
 #include <iostream>
 #include <algorithm>
 
-//! ¿Esto hace un deep copy correctamente?
-Course::Course(const Course& toCopy, string _name) {
-    name = _name;
-
+Course::Course(const Course& toCopy, string _name) : name(_name) {
     for (const auto& student : toCopy.students) {
+        student->courseInscribe(make_shared<Course>(*this, name));
         students.push_back(student);
     }
-}
+};
 
 void Course::enrollStudent(shared_ptr<Student> student) {
     if (isFull()) {
-        cout << "El curso " << *this << " está completo, no se puede inscribir al alumno " << student << "." << endl << endl;
+        cout << "El curso " << *this << " está completo, no se puede inscribir al alumno " << *student << "." << endl << endl;
         return;
     };
 
     if (isStudentEnrolled(student) >= 0) {
-        cout << "El alumno " << student << " ya está inscripto en el curso " << *this << "." << endl << endl;
+        cout << "El alumno " << *student << " ya está inscripto en el curso " << *this << "." << endl << endl;
         return;
     }
 
-    student->courseInscribe(make_shared<Course>(this));
+    student->courseInscribe(make_shared<Course>(*this, name));
     students.push_back(student);
     
-    cout << "Se inscribió al alumno " << student << " en el curso " << *this << "." << endl << endl;
+    cout << "Se inscribió al alumno " << *student << " en el curso " << *this << "." << endl << endl;
 };
 
 void Course::unenrollStudent(shared_ptr<Student> student) {
     int studentIndex = isStudentEnrolled(student);
 
     if (studentIndex == -1) {
-        cout << "El estudiante " << student << " no está inscripto en el curso " << *this << "." << endl << endl;
+        cout << "El estudiante " << *student << " no está inscripto en el curso " << *this << "." << endl << endl;
     } else {
-        student->courseDesinscribe(make_shared<Course>(this));
+        student->courseDesinscribe(make_shared<Course>(*this, name));
         students.erase(students.begin() + studentIndex);
     
-        cout << "Se desinscribió al alumno " << student << " del curso " << *this << "." << endl << endl;
+        cout << "Se desinscribió al alumno " << *student << " del curso " << *this << "." << endl << endl;
     };
 };
 
@@ -69,15 +67,15 @@ void Course::showStudents() {
         [](const shared_ptr<Student>& a, const shared_ptr<Student>& b) {return *a < *b;});
     
     for (unsigned int i = 0; i < students.size(); i++) {
-        cout << i + 1 << ". > " << *students[i] << " (" << students[i]->getAverage() << ")." << endl;
+        cout << i + 1 << ". > " << *students[i] << " (" << students[i]->getGrade(make_shared<Course>(*this, name)) << ")." << endl;
     };
 
     cout << endl;
 };
 
-bool Course::operator== (const Course &course) const {return this->name == course.name;}
+bool Course::operator== (const Course &course) const {return this->name == course.name;};
 
 ostream& operator<<(ostream &os, const Course &course) {
     os << "'" << course.getName() << "'";
     return os;
-}
+};

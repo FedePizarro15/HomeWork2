@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-bool CheckingAccount::withdraw(double amount) {
+bool CheckingAccount::withdraw(const double amount) {
     if (amount > balance) {
         cout << endl << "No hay suficientes fondos en la Cuenta Corriente." << endl;
         cout << "Consultando balance de Caja de Ahorro..." << endl << endl;

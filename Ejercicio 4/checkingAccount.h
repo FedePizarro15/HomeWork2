@@ -12,7 +12,7 @@ class CheckingAccount final : public BankAccount {
         CheckingAccount(const string _holder, const unsigned int _id, const double _balance) : BankAccount(_holder, _id, _balance), savingsAccount(nullptr) {};
         CheckingAccount(const string _holder, const unsigned int _id, const double _balance, SavingsAccount* _savingsAccount) : BankAccount(_holder, _id, _balance), savingsAccount(_savingsAccount) {};
 
-        bool withdraw(double amount) override;
+        bool withdraw(const double amount) override;
         void showInfo() override;
 
         void setSavingsAccount(SavingsAccount* sa) {

@@ -5,7 +5,6 @@
 
 using namespace std;
 
-//??: ¿Debo añadir una relación de vuelta que asegura inscribir en el curso?
 void Student::courseInscribe(shared_ptr<Course> course, float grade) {courses.push_back(pair{course, grade});}
 
 void Student::courseDesinscribe(shared_ptr<Course> course) {
@@ -16,40 +15,41 @@ void Student::courseDesinscribe(shared_ptr<Course> course) {
         };
     };
 
-    cout << "El estudiante no está inscripto en el curso " << course << "." << endl << endl;
+    cout << "El estudiante no está inscripto en el curso " << *course << "." << endl << endl;
 };
 
 bool Student::setGrade(shared_ptr<Course> course, float grade) {
     for (unsigned int i = 0; i < courses.size(); i++) {
-        if (courses[i].first == course) {
+        if (*courses[i].first == *course) {
             courses[i].second = grade;
             return true;
         };
     };
 
-    cout << "El estudiante no está inscripto en el curso " << course << "." << endl << endl;
+    cout << "El estudiante no está inscripto en el curso " << *course << "." << endl << endl;
     return false;
 };
 
-string Student::getName() const {
+const string Student::getName() const {
     return name;
 };
 
-unsigned int Student::getID() const {
+const unsigned int Student::getID() const {
     return id;
 };
 
-// vector<Course*> Student::getCourses() const {
-//     vector<Course*> _courses;
+const float Student::getGrade(shared_ptr<Course> course) const {
+    for (unsigned int i = 0; i < courses.size(); i++) {
+        if (*courses[i].first == *course) {
+            return courses[i].second;
+        };
+    };
 
-//     for (unsigned int i = 0; i < courses.size(); i++) {
-//         _courses.push_back(courses[i].first.get());
-//     };
+    cout << "El estudiante no está inscripto en el curso " << *course << "." << endl << endl;
+    return -1.0;
+}
 
-//     return _courses;
-// };
-
-float Student::getAverage() const {
+const float Student::getAverage() const {
     if (courses.empty()) return 0;
     
     float gradesSum = 0.0;

@@ -5,16 +5,6 @@
 
 using namespace std;
 
-Complex::Complex(float value, bool isReal) {
-    if (isReal) {
-        realValue = value;
-        imaginaryValue = 0;
-    } else {
-        realValue = 0;
-        imaginaryValue = value;
-    }
-};
-
 unique_ptr<Number> Complex::operator+(const Number& number) const {
     const Complex& complex = static_cast<const Complex&>(number);
 

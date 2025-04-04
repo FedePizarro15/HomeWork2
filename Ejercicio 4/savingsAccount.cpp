@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool SavingsAccount::withdraw(double amount) {
+bool SavingsAccount::withdraw(const double amount) {
     if (amount > balance) {
         cout << endl << "No hay saldo suficiente en la cuenta." << endl << endl;
         return false;

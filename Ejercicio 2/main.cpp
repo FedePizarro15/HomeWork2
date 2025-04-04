@@ -65,26 +65,10 @@ bool checkStudentsExist(const vector<shared_ptr<Student>>& students) {
     return true;
 };
 
-bool selectCourse(const vector<Course>& courses, int& option) {
-    cout << "Seleccione un curso (1 - " << courses.size() << "):" << endl;
-    for (size_t i = 0; i < courses.size(); i++) {
-        cout << i + 1 << ". " << courses[i] << endl;
-    }
-
-    input("Ingrese una opción:", &option);
-                
-    if (option < 1 || option > static_cast<int>(courses.size())) {
-        cout << "Opción inválida." << endl;
-        return false;
-    }
-
-    return true;
-};
-
 bool selectCourse(const vector<shared_ptr<Course>>& courses, int& option) {
     cout << "Seleccione un curso (1 - " << courses.size() << "):" << endl;
     for (size_t i = 0; i < courses.size(); i++) {
-        cout << i + 1 << ". " << courses[i] << endl;
+        cout << i + 1 << ". " << *courses[i] << endl;
     }
 
     input("Ingrese una opción:", &option);
@@ -122,6 +106,8 @@ int main() {
     int option = 0;
     
     do {
+        system("clear");
+        
         cout << "======== SISTEMA DE GESTIÓN ACADÉMICA ========" << endl;
         cout << "1. Crear Curso" << endl;
         cout << "2. Crear Estudiante" << endl;
@@ -153,8 +139,10 @@ int main() {
                 string name;
                 input("Ingrese el nombre del estudiante:", &name);
 
-                students.push_back(make_shared<Student>(Student(name, nextStudentID++)));
-                cout << "Estudiante " << *students.end() << " creado exitosamente." << endl;
+                shared_ptr<Student> newStudent = make_shared<Student>(name, nextStudentID++);
+
+                students.push_back(newStudent);
+                cout << "Estudiante " << *newStudent << " creado exitosamente." << endl;
                 break;
             };
             case 3: {
@@ -168,7 +156,7 @@ int main() {
                     break;
                 }
                 
-                cout << "\nEstudiantes en el curso " << courses[courseIndex-1] << ":" << endl;
+                cout << "\nEstudiantes en el curso " << *courses[courseIndex-1] << ":" << endl;
 
                 courses[courseIndex-1]->showStudents();
                 break;
@@ -183,7 +171,6 @@ int main() {
                 if (!selectStudent(students, studentIndex)) break;
                 
                 courses[courseIndex-1]->enrollStudent(students[studentIndex-1]);
-                // students[studentIndex-1]->courseInscribe(courses[courseIndex-1]);
                 break;
             };
             case 5: {

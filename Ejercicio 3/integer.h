@@ -4,7 +4,7 @@
 
 class Integer final : public Number {
     private:
-        int value;
+        const int value;
         
     public:
         Integer() : value(0) {};
