@@ -38,6 +38,8 @@ int main() {
     int secondChoice = 0;
 
     while (true) {
+        system("clear");
+
         cout << endl << "==== MENÚ DEL TEMPORIZADOR ====" << endl;
         cout << "1.  Iniciar un Nuevo Temporizador" << endl ;
         cout << "2.  Mostrar Temporizador (formato 12h)" << endl;

@@ -7,6 +7,8 @@ private:
     int hours, minutes, seconds;
     bool meridiem;
 
+    void validateTime(const int h, const int m = 0, const int s = 0, const std::string formatMeridiem = "a.m") const;
+
 public:
     Timer();
     Timer(const int _hours);

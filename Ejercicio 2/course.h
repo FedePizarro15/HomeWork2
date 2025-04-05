@@ -16,16 +16,18 @@ private:
 public:
     Course() : name("Curso"), students({}) {};
     Course(const string _name) : name(_name), students({}) {};
-    Course(const Course& toCopy, const string _name);
+    Course(const Course& toCopy, string _name) : name(_name), students(toCopy.students) {};
 
-    void enrollStudent(shared_ptr<Student> student);
-    void unenrollStudent(shared_ptr<Student> student);
+    void enrollStudent(shared_ptr<Student> student, shared_ptr<Course> course);
+    void unenrollStudent(shared_ptr<Student> student, shared_ptr<Course> course);
 
     int isStudentEnrolled(const shared_ptr<Student> student) const;
     bool isFull() const;
-    unsigned int getStudentsCount() const;
 
+    unsigned int getStudentsCount() const;
     string getName() const;
+    const vector<shared_ptr<Student>>& getEnrolledStudents() const;
+
     void showStudents();
 
     bool operator== (const Course& course) const;

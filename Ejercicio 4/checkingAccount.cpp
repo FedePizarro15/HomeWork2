@@ -33,7 +33,7 @@ bool CheckingAccount::withdraw(const double amount) {
 
     balance -= amount;
 
-    cout << endl << "Se retiraron $" << amount << " de la cuenta (Caja de Ahorro)." << endl << endl;
+    cout << endl << "Se retiraron $" << amount << " de la cuenta (Cuenta de Ahorro)." << endl << endl;
     return true;
 };
 

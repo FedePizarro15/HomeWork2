@@ -105,25 +105,6 @@ unique_ptr<Number> createComplex() {
     return newComplex;
 }
 
-int selectNumberType() {
-    cout << "Seleccione el tipo de número:" << endl;
-    cout << "1. Entero" << endl;
-    cout << "2. Real" << endl;
-    cout << "3. Complejo" << endl;
-    cout << "> ";
-    
-    int choice;
-    cin >> choice;
-    
-    if (cin.fail() || choice < 1 || choice > 3) {
-        clearInputBuffer();
-        cout << "Opción inválida. Seleccionando Entero por defecto." << endl;
-        return 1;
-    }
-    
-    return choice;
-}
-
 unique_ptr<Number> createNumber(NUMBER_TYPE type) {    
     switch(type) {
         case NUMBER_TYPE::INTEGER:

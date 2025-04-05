@@ -5,6 +5,20 @@
 #include <string>
 
 using namespace std;
+void Timer::validateTime(const int h, const int m = 0, const int s = 0, const string formatMeridiem = "a.m") const {
+    if (h < 0 || h > 11) {
+        throw runtime_error("Las horas deben ser entre 0 y 11.");
+    }
+    if (m < 0 || m > 59) {
+        throw runtime_error("Los minutos deben ser entre 0 y 59.");
+    }
+    if (s < 0 || s > 59) {
+        throw runtime_error("Los segundos deben ser entre 0 y 59.");
+    }
+    if (formatMeridiem != "a.m." && formatMeridiem != "a" && formatMeridiem != "am" && formatMeridiem != "p.m." && formatMeridiem != "p" && formatMeridiem != "pm") {
+        throw runtime_error("Formato meridiem no válido: " + formatMeridiem);
+    }
+}
 
 Timer::Timer() {
     hours = 0;
@@ -14,7 +28,7 @@ Timer::Timer() {
 };
 
 Timer::Timer(const int _hours) {
-    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
+    validateTime(_hours);
 
     hours = _hours;
     minutes = 0;
@@ -23,8 +37,7 @@ Timer::Timer(const int _hours) {
 };
 
 Timer::Timer(const int _hours, const int _minutes) {
-    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
-    if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
+    validateTime(_hours, _minutes);
 
     hours = _hours;
     minutes = _minutes;
@@ -33,9 +46,7 @@ Timer::Timer(const int _hours, const int _minutes) {
 };
 
 Timer::Timer(const int _hours, const int _minutes, const int _seconds) {
-    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
-    if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
-    if (_seconds < 0 || _seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
+    validateTime(_hours, _minutes, _seconds);
 
     hours = _hours;
     minutes = _minutes;
@@ -44,13 +55,7 @@ Timer::Timer(const int _hours, const int _minutes, const int _seconds) {
 };
 
 Timer::Timer(const int _hours, const int _minutes, const int _seconds, const string formatMeridiem) {
-    if (_hours < 0 || _hours > 11) {throw runtime_error("Las horas deben ser entre 0 y 11.");}
-    if (_minutes < 0 || _minutes > 59) {throw runtime_error("Los minutos deben ser entre 0 y 59.");}
-    if (_seconds < 0 || _seconds > 59) {throw runtime_error("Los segundos deben ser entre 0 y 59.");}
-
-    if (formatMeridiem == "a.m." || formatMeridiem == "a" || formatMeridiem == "am") {meridiem = true;}
-    else if (formatMeridiem == "p.m." || formatMeridiem == "p" || formatMeridiem == "pm") {meridiem = false;}
-    else {throw runtime_error("Formato meridiem no válido: " + formatMeridiem);}
+    validateTime(_hours, _minutes, _seconds, formatMeridiem);
 
     hours = _hours;
     minutes = _minutes;

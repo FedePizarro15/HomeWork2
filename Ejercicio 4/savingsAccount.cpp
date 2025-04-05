@@ -30,7 +30,6 @@ void SavingsAccount::showInfo() {
             cout << "No se pudo mostrar la información de la cuenta." << endl << endl;
             return;
         }
-    } else {
     }
 
     cout << endl << "== Informe de la Cuenta ==" << endl << endl;

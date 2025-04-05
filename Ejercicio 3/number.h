@@ -12,4 +12,4 @@ public:
     virtual unique_ptr<Number> operator*(const Number& number) const = 0;
 
     virtual string toString() const = 0;
-};;
+};

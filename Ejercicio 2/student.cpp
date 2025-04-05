@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void Student::courseInscribe(shared_ptr<Course> course, float grade) {courses.push_back(pair{course, grade});}
+void Student::courseInscribe(shared_ptr<Course> course, float grade) {courses.push_back({course, grade});}
 
 void Student::courseDesinscribe(shared_ptr<Course> course) {
     for (unsigned int i = 0; i < courses.size(); i++) {

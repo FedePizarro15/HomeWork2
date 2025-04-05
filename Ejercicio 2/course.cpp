@@ -2,15 +2,9 @@
 
 #include <iostream>
 #include <algorithm>
+#include <iomanip>
 
-Course::Course(const Course& toCopy, string _name) : name(_name) {
-    for (const auto& student : toCopy.students) {
-        student->courseInscribe(make_shared<Course>(*this, name));
-        students.push_back(student);
-    }
-};
-
-void Course::enrollStudent(shared_ptr<Student> student) {
+void Course::enrollStudent(shared_ptr<Student> student, shared_ptr<Course> course) {
     if (isFull()) {
         cout << "El curso " << *this << " está completo, no se puede inscribir al alumno " << *student << "." << endl << endl;
         return;
@@ -21,19 +15,19 @@ void Course::enrollStudent(shared_ptr<Student> student) {
         return;
     }
 
-    student->courseInscribe(make_shared<Course>(*this, name));
+    student->courseInscribe(course);
     students.push_back(student);
     
     cout << "Se inscribió al alumno " << *student << " en el curso " << *this << "." << endl << endl;
 };
 
-void Course::unenrollStudent(shared_ptr<Student> student) {
+void Course::unenrollStudent(shared_ptr<Student> student, shared_ptr<Course> course) {
     int studentIndex = isStudentEnrolled(student);
 
     if (studentIndex == -1) {
         cout << "El estudiante " << *student << " no está inscripto en el curso " << *this << "." << endl << endl;
     } else {
-        student->courseDesinscribe(make_shared<Course>(*this, name));
+        student->courseDesinscribe(course);
         students.erase(students.begin() + studentIndex);
     
         cout << "Se desinscribió al alumno " << *student << " del curso " << *this << "." << endl << endl;
@@ -62,12 +56,16 @@ string Course::getName() const {
     return name;
 };
 
+const vector<shared_ptr<Student>>& Course::getEnrolledStudents() const {
+    return students;
+}
+
 void Course::showStudents() {
     sort(students.begin(), students.end(),
         [](const shared_ptr<Student>& a, const shared_ptr<Student>& b) {return *a < *b;});
     
     for (unsigned int i = 0; i < students.size(); i++) {
-        cout << i + 1 << ". > " << *students[i] << " (" << students[i]->getGrade(make_shared<Course>(*this, name)) << ")." << endl;
+        cout << setw(2) << right << (i + 1) << ". > " << *students[i] << " (" << students[i]->getGrade(make_shared<Course>(*this, name)) << ")." << endl;
     };
 
     cout << endl;
