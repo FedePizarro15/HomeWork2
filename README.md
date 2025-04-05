@@ -2,7 +2,7 @@
 
 ## Link al Repositorio de GitHub
 
-**[Repositorio HomeWork1 - Pizarro Federico](https://github.com/FedePizarro15/HomeWork2)**
+**[Repositorio HomeWork2 - Pizarro Federico](https://github.com/FedePizarro15/HomeWork2)**
 
 ---
 
@@ -10,16 +10,16 @@
 
 ### Ejercicio 1:
 
-g++ main.cpp -Wall -o Ej1
+g++ main.cpp timer.cpp -Wall -o Ej1
 
 ### Ejercicio 2:
 
-g++ main.cpp -Wall -o Ej2
+g++ main.cpp course.cpp student.cpp -Wall -o Ej2
 
 ### Ejercicio 3:
 
-g++ main.cpp -Wall -o Ej3
+g++ main.cpp integer.cpp real.cpp complex.cpp -Wall -o Ej3
 
 ### Ejercicio 4:
 
-g++ main.cpp -Wall -o Ej4
+g++ main.cpp bankAccount.cpp checkingAccount.cpp savingsAccount.cpp -Wall -o Ej4

@@ -9,7 +9,9 @@ void Student::courseInscribe(shared_ptr<Course> course, float grade) {courses.pu
 
 void Student::courseDesinscribe(shared_ptr<Course> course) {
     for (unsigned int i = 0; i < courses.size(); i++) {
-        if (*courses[i].first == *course) {
+        auto currentCourse = courses[i].first.lock();
+
+        if (currentCourse && *currentCourse == *course) {
             courses.erase(courses.begin() + i);
             return;
         };
@@ -20,7 +22,9 @@ void Student::courseDesinscribe(shared_ptr<Course> course) {
 
 bool Student::setGrade(shared_ptr<Course> course, float grade) {
     for (unsigned int i = 0; i < courses.size(); i++) {
-        if (*courses[i].first == *course) {
+        auto currentCourse = courses[i].first.lock();
+        
+        if (currentCourse && *currentCourse == *course) {
             courses[i].second = grade;
             return true;
         };
@@ -40,7 +44,9 @@ const unsigned int Student::getID() const {
 
 const float Student::getGrade(shared_ptr<Course> course) const {
     for (unsigned int i = 0; i < courses.size(); i++) {
-        if (*courses[i].first == *course) {
+        auto currentCourse = courses[i].first.lock();
+        
+        if (currentCourse && *currentCourse == *course) {
             return courses[i].second;
         };
     };

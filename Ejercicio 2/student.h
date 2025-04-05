@@ -13,7 +13,7 @@ class Student {
 private:
     const string name;
     const unsigned int id; // único
-    vector<pair<shared_ptr<Course>, float>> courses;
+    vector<pair<weak_ptr<Course>, float>> courses;
     void courseDesinscribe(shared_ptr<Course> course);
     
 public:
