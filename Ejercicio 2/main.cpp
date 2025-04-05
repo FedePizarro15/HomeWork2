@@ -146,7 +146,7 @@ int main() {
                 if (!checkCoursesExist(courses)) break;
                 
                 shared_ptr<Course> selectedCourse = selectCourse(courses);
-                if(!selectedCourse) break;
+                if (!selectedCourse) break;
 
                 if (selectedCourse->getStudentsCount() == 0) {
                     cout << "No hay estudiantes inscriptos en este curso." << endl;
@@ -155,14 +155,14 @@ int main() {
                 
                 cout << "\nEstudiantes en el curso " << *selectedCourse << ":" << endl;
 
-                selectedCourse->showStudents();
+                selectedCourse->showStudents(selectedCourse);
                 break;
             };
             case 4: {
                 if (!(checkStudentsExist(students) || checkCoursesExist(courses))) break;
                 
                 shared_ptr<Course> selectedCourse = selectCourse(courses);
-                if(!selectedCourse) break;
+                if (!selectedCourse) break;
                 
                 shared_ptr<Student> selectedStudent = selectStudent(students);
                 if (!selectedStudent) break;
@@ -174,7 +174,7 @@ int main() {
                 if (!(checkStudentsExist(students) || checkCoursesExist(courses))) break;
                 
                 shared_ptr<Course> selectedCourse = selectCourse(courses);
-                if(!selectedCourse) break;
+                if (!selectedCourse) break;
 
                 shared_ptr<Student> selectedStudent = selectStudent(students);
                 if (!selectedStudent) break;
@@ -190,7 +190,7 @@ int main() {
                 if (!selectedStudent) break;
                 
                 shared_ptr<Course> selectedCourse = selectCourse(courses);
-                if(!selectedCourse) break;
+                if (!selectedCourse) break;
                 
                 float grade;
                 input("Ingrese la calificación (0 - 10):", &grade);
@@ -209,7 +209,7 @@ int main() {
                 if (!checkCoursesExist(courses)) break;
                 
                 shared_ptr<Course> selectedCourse = selectCourse(courses);
-                if(!selectedCourse) break;
+                if (!selectedCourse) break;
 
                 cout << "Estado del curso " << *selectedCourse << ":" << endl << endl;
 
@@ -236,20 +236,12 @@ int main() {
                 if (!checkCoursesExist(courses)) break;
                 
                 shared_ptr<Course> selectedCourse = selectCourse(courses);
-                if(!selectedCourse) break;
+                if (!selectedCourse) break;
 
-                string nameNewCourse;
-                input("Ingrese el nombre del nuevo curso:", &nameNewCourse);
-
-                shared_ptr<Course> newCourse = make_shared<Course>(*selectedCourse, nameNewCourse);
+                shared_ptr<Course> newCourse = selectedCourse->copyCourse(selectedCourse);
+                if (!newCourse) break;
 
                 courses.push_back(newCourse);
-
-                cout << "Inscribiendo estudiantes del curso original al nuevo curso..." << endl;
-                
-                for (const auto& student : selectedCourse->getEnrolledStudents()) {
-                    student->courseInscribe(newCourse);
-                }
 
                 cout << "Curso " << *newCourse << " creado exitosamente." << endl;
                 break;
@@ -261,7 +253,7 @@ int main() {
                 if (!selectedStudent) break;
                 
                 shared_ptr<Course> selectedCourse = selectCourse(courses);
-                if(!selectedCourse) break;
+                if (!selectedCourse) break;
                 
                 if (selectedCourse->isStudentEnrolled(selectedStudent) >= 0) {
                     cout << "El estudiante " << *selectedStudent << " está inscripto en el curso " 

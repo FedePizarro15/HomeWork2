@@ -10,7 +10,7 @@ private:
     void validateTime(const int h, const int m = 0, const int s = 0, const std::string formatMeridiem = "a.m") const;
 
 public:
-    Timer();
+    Timer() : hours(0), minutes(0), seconds(0), meridiem(true) {};
     Timer(const int _hours);
     Timer(const int _hours, const int _minutes);
     Timer(const int _hours, const int _minutes, const int _seconds);

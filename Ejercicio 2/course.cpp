@@ -1,8 +1,28 @@
 #include "course.h"
 
 #include <iostream>
+#include <limits>
 #include <algorithm>
 #include <iomanip>
+
+shared_ptr<Course> Course::copyCourse(const shared_ptr<Course> toCopy) const {
+    string nameNewCourse;
+
+    cout << "Ingrese el nombre del nuevo curso:" << endl << ">> ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    getline(cin, nameNewCourse);
+    cout << endl;
+
+    shared_ptr<Course> newCourse = make_shared<Course>(*toCopy, nameNewCourse);
+
+    cout << "Inscribiendo estudiantes del curso original al nuevo curso..." << endl;
+    
+    for (const auto& student : toCopy->getEnrolledStudents()) {
+        student->courseInscribe(newCourse);
+    }
+    
+    return newCourse;
+}
 
 void Course::enrollStudent(shared_ptr<Student> student, shared_ptr<Course> course) {
     if (isFull()) {
@@ -60,12 +80,12 @@ const vector<shared_ptr<Student>>& Course::getEnrolledStudents() const {
     return students;
 }
 
-void Course::showStudents() {
+void Course::showStudents(shared_ptr<Course> course) {
     sort(students.begin(), students.end(),
         [](const shared_ptr<Student>& a, const shared_ptr<Student>& b) {return *a < *b;});
     
     for (unsigned int i = 0; i < students.size(); i++) {
-        cout << setw(2) << right << (i + 1) << ". > " << *students[i] << " (" << students[i]->getGrade(make_shared<Course>(*this, name)) << ")." << endl;
+        cout << setw(2) << right << (i + 1) << ". > " << *students[i] << " (" << students[i]->getGrade(course) << ")." << endl;
     };
 
     cout << endl;

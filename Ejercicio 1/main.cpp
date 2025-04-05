@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// Funciones para pedir inputs
+
 void input(const string message, int* variable) {
     cout << message << endl << ">> ";
     cin >> *variable;
@@ -23,6 +25,8 @@ void input(const string message, bool* variable) {
     cout << endl;
 };
 
+// Espera al usuario para continuar al siguiente menú
+
 void pauseAndContinue(const string message = "Presione Enter para continuar...") {
     cout << message << endl;
 
@@ -38,7 +42,7 @@ int main() {
     int secondChoice = 0;
 
     while (true) {
-        system("clear");
+        system("clear"); // Limpia la consola para hacer prolijos los menú
 
         cout << endl << "==== MENÚ DEL TEMPORIZADOR ====" << endl;
         cout << "1.  Iniciar un Nuevo Temporizador" << endl ;
@@ -52,8 +56,7 @@ int main() {
         cout << "9.  Configurar Minutos" << endl;
         cout << "10. Configurar Segundos" << endl;
         cout << "11. Configurar Meridiem" << endl;
-        cout << "0.  Salir" << endl;
-        cout << endl;
+        cout << "0.  Salir" << endl << endl;
 
         input("Ingrese su opción:", &choice);
         cout << "================================" << endl << endl;
@@ -68,8 +71,7 @@ int main() {
                 cout << "3. Horas, Minutos (HHh, MMm, 00s a.m.)" << endl;
                 cout << "4. Horas, Minutos, Segundos (HHh, MMm, SSs a.m.)" << endl;
                 cout << "5. Horas, Minutos, Segundos, Meridiem (HHh, MMm, SSs a.m./p.m.)" << endl;
-                cout << "0. Volver" << endl;
-                cout << endl;
+                cout << "0. Volver" << endl << endl;
 
                 input("Ingrese su opción:", &secondChoice);
                 cout << "================================" << endl << endl;

@@ -5,6 +5,9 @@
 #include <string>
 
 using namespace std;
+
+// Valida que los parametro para inicializar un temporizador sean correctos
+
 void Timer::validateTime(const int h, const int m = 0, const int s = 0, const string formatMeridiem = "a.m") const {
     if (h < 0 || h > 11) {
         throw runtime_error("Las horas deben ser entre 0 y 11.");
@@ -19,13 +22,6 @@ void Timer::validateTime(const int h, const int m = 0, const int s = 0, const st
         throw runtime_error("Formato meridiem no válido: " + formatMeridiem);
     }
 }
-
-Timer::Timer() {
-    hours = 0;
-    minutes = 0;
-    seconds = 0;
-    meridiem = true;
-};
 
 Timer::Timer(const int _hours) {
     validateTime(_hours);
@@ -60,6 +56,9 @@ Timer::Timer(const int _hours, const int _minutes, const int _seconds, const str
     hours = _hours;
     minutes = _minutes;
     seconds = _seconds;
+    
+    if (formatMeridiem == "a.m." || formatMeridiem == "a" || formatMeridiem == "am") {meridiem = true;}
+    else if (formatMeridiem == "p.m." || formatMeridiem == "p" || formatMeridiem == "pm") {meridiem = false;}
 };
 
 void Timer::showTimer() const {
@@ -75,8 +74,10 @@ void Timer::showTimer24() const {
          << setfill('0') << setw(2) << seconds << "s" << endl << endl;
 };
 
+// Asumo que hay que mostrar las horas según si es a.m. o p.m.
+
 void Timer::showHours() const {
-    cout << hours << " Horas" << endl << endl;
+    cout << (meridiem ? hours : hours + 12) << " Horas" << endl << endl;
 };
 
 void Timer::showMinutes() const {
@@ -131,15 +132,9 @@ void Timer::setSeconds(const int _seconds) {
 };
 
 void Timer::setMeridiem(const string formatMeridiem) {
-    if (formatMeridiem == "a.m." || formatMeridiem == "a" || formatMeridiem == "am") {
-        meridiem = true;
-    }
-    else if (formatMeridiem == "p.m." || formatMeridiem == "p" || formatMeridiem == "pm") {
-        meridiem = false;
-    }
-    else {
-        throw runtime_error("Formato meridiem no válido: " + formatMeridiem);
-    }
+    if (formatMeridiem == "a.m." || formatMeridiem == "a" || formatMeridiem == "am") {meridiem = true;}
+    else if (formatMeridiem == "p.m." || formatMeridiem == "p" || formatMeridiem == "pm") {meridiem = false;}
+    else {throw runtime_error("Formato meridiem no válido: " + formatMeridiem);}
 };
 
 void Timer::toggleMeridiem() {
