@@ -60,7 +60,7 @@ unique_ptr<Number> createInteger() {
 }
 
 unique_ptr<Number> createReal() {
-    float value;
+    double value;
     cout << "Ingrese un valor real: ";
     cin >> value;
     
@@ -78,7 +78,7 @@ unique_ptr<Number> createReal() {
 }
 
 unique_ptr<Number> createComplex() {
-    float realPart, imaginaryPart;
+    double realPart, imaginaryPart;
     
     cout << "Ingrese la parte real: ";
     cin >> realPart;
